@@ -225,3 +225,23 @@ def save_loc_db(path,username):
         print(e)
         messagebox.showerror("DATABASE ERROR",e)
     
+
+def get_songs(user_id):
+    mydb= get_connection()
+    mycursor = mydb.cursor(buffered=True)
+    user_id=get_uid(user_id)
+    try:
+        qry="Select * from playlist where uid=%s"
+        set1=(user_id,)
+        mycursor.execute(qry,set1)
+        res = mycursor.fetchall()
+        print(res)
+        my_l=[]
+        for i in res:
+            my_l.append(i[0])
+        mydb.close()
+        print(my_l)
+        return my_l
+    except Exception as e:
+        messagebox.showerror("DATABASE ERROR",e)
+    

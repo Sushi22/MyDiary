@@ -161,7 +161,7 @@ class mainFrame:
         self.body=Frame(self.root)
         self.body.place(x=330,y=165,relwidth=0.65,relheight=0.75)
         Label(self.body,image=self.bg).place(relwidth=1,relheight=1)
-        Label(self.body,text="Hey! how was your day ??",bg="pale turquoise",font=("Helvetica",11,"italic")).place(x=10,y=5)
+        Label(self.body,text="Hey! how was your day ?",bg="pale turquoise",font=("Helvetica",11,"italic")).place(x=10,y=5)
         Label(self.body,text=datetime.datetime.today().strftime("%d-%B-%Y"),bg="pale turquoise",font=("Courier",12)).place(x=390,y=5)
 
         icon = ImageTk.PhotoImage(file="images/musicIcon1.png") 
@@ -279,6 +279,7 @@ class mainFrame:
 
 
 
+
 class Todo:
 
     def __init__(self,username):
@@ -357,6 +358,8 @@ class UpdateTodo:
         if val==1:
             messagebox.showinfo("INFO","Todo Updated successfully")
         self.root.destroy()
+
+        mainFrame.display()
 
     def cancel(self):
         self.root.destroy()
@@ -450,20 +453,26 @@ class Collections:
 
     def add_file(self):
         self.filename = filedialog.askopenfilename(initialdir =  "/", title = "Select A File", filetype=(("mp3 files","*.mp3"),("all files","*.*")) )
-
+        self.t.attributes('-topmost',1)
         self.e_path.insert(0,self.filename)
 
     def add_song(self):
+        self.t.attributes('-topmost',0)
         if(self.e_path.get()==""):
             messagebox.showinfo("MyDiary","Please enter path or browse")
+
         else:
             val=save_loc_db(self.e_path.get(),self.user)
          
             if(val):
                 messagebox.showinfo("MyDiary","Song Added")
                 save_to_directory(str(self.e_path.get()),self.user)
+                
             else:
                 messagebox.showerror("ERROR","Something went wrong,TRY AGAIN")
-                
+
+        self.t.destroy()
+        self.root.destroy()
+
         
 
